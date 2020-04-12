@@ -31,19 +31,14 @@ class DrawView: UIView {
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         touches.enumerated().forEach({ (index, item) in
+            guard let touchBegan = touches.first?.location(in: self) else { return }
             let position = item.location(in: self)
-            if position.x >= custom.pointA.x - 100 || position.y <= custom.pointA.y - 100 {
-                currentAngle = .pointA
-                custom.pointA = position
-                updateDrawing()
-            } else if position.x >= custom.pointB.x - 100 || position.y <= custom.pointB.y - 100 {
-                currentAngle = .pointB
-                custom.pointB = position
-                updateDrawing()
-            } else if position.x >= custom.pointC.x - 100 || position.y <= custom.pointC.y - 100 {
-                currentAngle = .pointC
-                custom.pointC = position
-                updateDrawing()
+            if touchBegan.x >= custom.pointA.x - 20 || touchBegan.x >= custom.pointA.x + 20 && touchBegan.y <= custom.pointA.y - 20 || touchBegan.y <= custom.pointA.y + 20 {
+                updatePoint(position, angle: .pointA)
+            } else if touchBegan.x >= custom.pointB.x - 20 || touchBegan.x >= custom.pointB.x + 20 && touchBegan.y <= custom.pointB.y - 20 || touchBegan.y <= custom.pointB.y + 20 {
+                updatePoint(position, angle: .pointB)
+            } else if touchBegan.x >= custom.pointC.x - 20 || touchBegan.x >= custom.pointC.x + 20 && touchBegan.y <= custom.pointC.y - 20 || touchBegan.y <= custom.pointC.y + 20 {
+                updatePoint(position, angle: .pointC)
             }
         })
     }
@@ -61,10 +56,6 @@ class DrawView: UIView {
         case .none:
             break
         }
-    }
-
-    fileprivate func updateDrawing() {
-        self.setNeedsDisplay()
     }
 
     fileprivate func drawTriangle(_ context: CGContext, _ lowerLeftCorner: CGPoint, _ lowerRightCorner: CGPoint, _ upperCorner: CGPoint) {
@@ -86,6 +77,12 @@ class DrawView: UIView {
         context.setFillColor(color)
         context.setLineWidth(7.0)
         context.fillPath()
+    }
+
+    fileprivate func updatePoint(_ position: CGPoint, angle: Angle) {
+        currentAngle = angle
+        custom.pointA = position
+        self.setNeedsDisplay()
     }
 }
 
