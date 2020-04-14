@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		F6B4E86224438ED70083072F /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B4E86124438ED70083072F /* extension.swift */; };
 		F6B4E8642443909C0083072F /* Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B4E8632443909C0083072F /* Custom.swift */; };
-		F6B4E866244391A90083072F /* Angle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B4E865244391A90083072F /* Angle.swift */; };
 		F6D269BB2440914B000658C1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D269BA2440914B000658C1 /* AppDelegate.swift */; };
 		F6D269BF2440914B000658C1 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D269BE2440914B000658C1 /* MainViewController.swift */; };
 		F6D269C22440914B000658C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F6D269C02440914B000658C1 /* Main.storyboard */; };
@@ -34,7 +33,6 @@
 		F6989C92244310940060180F /* learn.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = learn.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		F6B4E86124438ED70083072F /* extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
 		F6B4E8632443909C0083072F /* Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Custom.swift; sourceTree = "<group>"; };
-		F6B4E865244391A90083072F /* Angle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Angle.swift; sourceTree = "<group>"; };
 		F6D269B72440914A000658C1 /* LearnCoreGraphic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LearnCoreGraphic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6D269BA2440914B000658C1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6D269BE2440914B000658C1 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -130,7 +128,6 @@
 				F6D269BE2440914B000658C1 /* MainViewController.swift */,
 				F6D269DC24409549000658C1 /* MainViewModel.swift */,
 				F6D269E22440AE4B000658C1 /* DrawView.swift */,
-				F6B4E865244391A90083072F /* Angle.swift */,
 				F6B4E8632443909C0083072F /* Custom.swift */,
 				F6B4E86124438ED70083072F /* extension.swift */,
 			);
@@ -248,7 +245,6 @@
 			files = (
 				F6D269BF2440914B000658C1 /* MainViewController.swift in Sources */,
 				F6D269BB2440914B000658C1 /* AppDelegate.swift in Sources */,
-				F6B4E866244391A90083072F /* Angle.swift in Sources */,
 				F6B4E8642443909C0083072F /* Custom.swift in Sources */,
 				F6D269E32440AE4B000658C1 /* DrawView.swift in Sources */,
 				F6B4E86224438ED70083072F /* extension.swift in Sources */,

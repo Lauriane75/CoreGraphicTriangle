@@ -19,11 +19,17 @@ import CoreGraphics
 //      }
 //  }
 
-//   func distance(from lhs: CGPoint, to rhs: CGPoint) -> CGFloat {
-   //       let xDistance = lhs.x - rhs.x
-   //       let yDistance = lhs.y - rhs.y
-   //       return (xDistance * xDistance + yDistance * yDistance).squareRoot()
-   //   }
+var pointA = CGPoint(x: 25, y: 280)
+var pointB = CGPoint(x: 275, y: 280)
+
+   func distance(from lhs: CGPoint, to rhs: CGPoint) -> CGFloat {
+          let xDistance = lhs.x - rhs.x
+          let yDistance = lhs.y - rhs.y
+          return (xDistance * xDistance + yDistance * yDistance).squareRoot()
+      }
+
+let dis = distance(from: pointA, to: pointB)
+print(dis)
 
 //
 //    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {

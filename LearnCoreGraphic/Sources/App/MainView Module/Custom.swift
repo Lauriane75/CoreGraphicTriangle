@@ -17,4 +17,5 @@ class Custom {
     let colorA = UIColor.black.cgColor
     let colorB = UIColor.yellow.cgColor
     let colorC = UIColor.purple.cgColor
+    let colorCircle = UIColor.red.cgColor
 }

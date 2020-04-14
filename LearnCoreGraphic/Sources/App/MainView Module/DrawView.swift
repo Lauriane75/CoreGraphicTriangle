@@ -12,11 +12,16 @@ class DrawView: UIView {
 
     // MARK: - Properties
 
-    var currentAngle: Angle?
+    var points: [CGPoint] = []
 
-    var angles: [CGPoint] = []
+    var centerPoint: [CGPoint] = []
 
     let custom = Custom()
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        points = [custom.pointA, custom.pointB, custom.pointC]
+    }
 
     // MARK: - Draw
 
@@ -24,65 +29,48 @@ class DrawView: UIView {
 
         let context = UIGraphicsGetCurrentContext()!
 
-        drawTriangle(context, custom.pointA, custom.pointB, custom.pointC)
+        drawTriangle(context, points: points)
 
-        drawCircles(context)
+        drawCircle(context)
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        touches.enumerated().forEach({ (index, item) in
-            guard let touchBegan = touches.first?.location(in: self) else { return }
-            let position = item.location(in: self)
-            if touchBegan.x >= custom.pointA.x - 20 || touchBegan.x >= custom.pointA.x + 20 && touchBegan.y <= custom.pointA.y - 20 || touchBegan.y <= custom.pointA.y + 20 {
-                updatePoint(position, angle: .pointA)
-            } else if touchBegan.x >= custom.pointB.x - 20 || touchBegan.x >= custom.pointB.x + 20 && touchBegan.y <= custom.pointB.y - 20 || touchBegan.y <= custom.pointB.y + 20 {
-                updatePoint(position, angle: .pointB)
-            } else if touchBegan.x >= custom.pointC.x - 20 || touchBegan.x >= custom.pointC.x + 20 && touchBegan.y <= custom.pointC.y - 20 || touchBegan.y <= custom.pointC.y + 20 {
-                updatePoint(position, angle: .pointC)
+        guard let touch = touches.first?.location(in: self) else { return }
+        centerPoint = [touch]
+        points.enumerated().forEach { (index, item) in
+            if distance(from: item, to: touch) <= 20 {
+                points[index] = touch
             }
-        })
+        }
+        self.setNeedsDisplay()
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+
     }
 
     // MARK: - Private Functions
 
-    fileprivate func drawCircles(_ currentContext: CGContext) {
-        switch currentAngle {
-        case .pointA:
-            drawCircle(currentContext, custom.pointA, color: custom.colorA)
-        case .pointB:
-            drawCircle(currentContext, custom.pointB, color: custom.colorB)
-        case .pointC:
-            drawCircle(currentContext, custom.pointC, color: custom.colorC)
-        case .none:
-            break
-        }
+    fileprivate func distance(from lhs: CGPoint, to rhs: CGPoint) -> CGFloat {
+        let xDistance = lhs.x - rhs.x
+        let yDistance = lhs.y - rhs.y
+        return (xDistance * xDistance + yDistance * yDistance).squareRoot()
     }
 
-    fileprivate func drawTriangle(_ context: CGContext, _ lowerLeftCorner: CGPoint, _ lowerRightCorner: CGPoint, _ upperCorner: CGPoint) {
-        angles = [custom.pointA, custom.pointB, custom.pointC]
-        context.move(to: angles[0])
-        context.addLine(to: angles[0])
-        context.addLine(to: angles[1])
-        context.addLine(to: angles[2])
+    fileprivate func drawTriangle(_ context: CGContext, points: [CGPoint]) {
+        context.addLines(between: points)
         context.closePath()
-
         context.setLineCap(.square)
         context.setLineWidth(5.0)
         context.setStrokeColor(UIColor.blue.cgColor)
         context.strokePath()
     }
 
-    fileprivate func drawCircle(_ context: CGContext, _ lowerLeftCorner: CGPoint, color: CGColor) {
-        context.addArc(center: lowerLeftCorner, radius: 10, startAngle: CGFloat(0).degreesToRadians, endAngle: CGFloat(360).degreesToRadians, clockwise: true)
-        context.setFillColor(color)
+    fileprivate func drawCircle(_ context: CGContext) {
+        guard centerPoint.first != nil else { return }
+        context.addArc(center: centerPoint.first!, radius: 10, startAngle: CGFloat(0).degreesToRadians, endAngle: CGFloat(360).degreesToRadians, clockwise: true)
+        context.setFillColor(custom.colorCircle)
         context.setLineWidth(7.0)
         context.fillPath()
     }
-
-    fileprivate func updatePoint(_ position: CGPoint, angle: Angle) {
-        currentAngle = angle
-        custom.pointA = position
-        self.setNeedsDisplay()
-    }
 }
-
