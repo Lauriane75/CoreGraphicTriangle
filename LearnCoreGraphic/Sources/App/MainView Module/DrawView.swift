@@ -8,6 +8,7 @@
 
 import UIKit
 
+@IBDesignable
 class DrawView: UIView {
 
     // MARK: - Properties
@@ -16,18 +17,26 @@ class DrawView: UIView {
 
     var centerPoint: [CGPoint] = []
 
+    var selectedIndex: Int?
+
     let custom = Custom()
+
+    @IBInspectable var strokeWidth: CGFloat = 0
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         points = [custom.pointA, custom.pointB, custom.pointC]
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+
     // MARK: - Draw
 
     override func draw(_ rect: CGRect) {
 
-        let context = UIGraphicsGetCurrentContext()!
+        guard let context = UIGraphicsGetCurrentContext() else { return }
 
         drawTriangle(context, points: points)
 
@@ -36,17 +45,20 @@ class DrawView: UIView {
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first?.location(in: self) else { return }
+        guard screenSize(touch: touch) else { return }
         centerPoint = [touch]
-        points.enumerated().forEach { (index, item) in
-            if distance(from: item, to: touch) <= 20 {
-                points[index] = touch
+        self.setNeedsDisplay()
+        points.enumerated().forEach { (index, point) in
+            if distance(from: point, to: touch) <= 20 {
+                selectedIndex = index
             }
         }
-        self.setNeedsDisplay()
+        guard selectedIndex != nil else { return }
+        points[selectedIndex!] = touch
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-
+        selectedIndex = nil
     }
 
     // MARK: - Private Functions
@@ -61,7 +73,7 @@ class DrawView: UIView {
         context.addLines(between: points)
         context.closePath()
         context.setLineCap(.square)
-        context.setLineWidth(5.0)
+        context.setLineWidth(strokeWidth)
         context.setStrokeColor(UIColor.blue.cgColor)
         context.strokePath()
     }
@@ -72,5 +84,9 @@ class DrawView: UIView {
         context.setFillColor(custom.colorCircle)
         context.setLineWidth(7.0)
         context.fillPath()
+    }
+
+    private func screenSize(touch: CGPoint) -> Bool {
+        return touch.x > self.bounds.minX && touch.y > self.bounds.minY && touch.x < self.bounds.maxX && touch.y < self.bounds.maxY
     }
 }
